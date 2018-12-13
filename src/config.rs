@@ -9,7 +9,7 @@ use std::io::{self, BufRead};
 use std::ffi::OsString;
 use std::path::{Path, PathBuf};
 
-use Result;
+use crate::Result;
 
 /// Return a sequence of arguments derived from ripgrep rc configuration files.
 pub fn args() -> Vec<OsString> {

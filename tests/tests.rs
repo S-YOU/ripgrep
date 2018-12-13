@@ -1,7 +1,7 @@
-extern crate serde;
+
 #[macro_use]
 extern crate serde_derive;
-extern crate serde_json;
+use serde_json;
 
 // Macros useful for testing.
 #[macro_use]

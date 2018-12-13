@@ -8,12 +8,12 @@ use std::path::Path;
 use encoding_rs;
 use encoding_rs_io::DecodeReaderBytesBuilder;
 use grep_matcher::{LineTerminator, Match, Matcher};
-use line_buffer::{
+use crate::line_buffer::{
     self, BufferAllocation, LineBuffer, LineBufferBuilder, LineBufferReader,
     DEFAULT_BUFFER_CAPACITY, alloc_error,
 };
-use searcher::glue::{ReadByLine, SliceByLine, MultiLine};
-use sink::{Sink, SinkError};
+use crate::searcher::glue::{ReadByLine, SliceByLine, MultiLine};
+use crate::sink::{Sink, SinkError};
 
 pub use self::mmap::MmapChoice;
 
@@ -243,7 +243,7 @@ impl ::std::error::Error for ConfigError {
 }
 
 impl fmt::Display for ConfigError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match *self {
             ConfigError::SearchUnavailable => {
                 write!(f, "grep config error: no available searchers")
@@ -929,7 +929,7 @@ fn slice_has_utf16_bom(slice: &[u8]) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use testutil::{KitchenSink, RegexMatcher};
+    use crate::testutil::{KitchenSink, RegexMatcher};
     use super::*;
 
     #[test]

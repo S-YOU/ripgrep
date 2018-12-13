@@ -70,26 +70,24 @@ fn example() -> Result<(), Box<Error>> {
 
 #[cfg(feature = "serde1")]
 extern crate base64;
-extern crate grep_matcher;
-#[cfg(test)]
-extern crate grep_regex;
-extern crate grep_searcher;
-#[cfg(feature = "serde1")]
-extern crate serde;
+
+
+
+
 #[cfg(feature = "serde1")]
 #[macro_use]
 extern crate serde_derive;
 #[cfg(feature = "serde1")]
 extern crate serde_json;
-extern crate termcolor;
 
-pub use color::{ColorError, ColorSpecs, UserColorSpec, default_color_specs};
+
+pub use crate::color::{ColorError, ColorSpecs, UserColorSpec, default_color_specs};
 #[cfg(feature = "serde1")]
-pub use json::{JSON, JSONBuilder, JSONSink};
-pub use standard::{Standard, StandardBuilder, StandardSink};
-pub use stats::Stats;
-pub use summary::{Summary, SummaryBuilder, SummaryKind, SummarySink};
-pub use util::PrinterPath;
+pub use crate::json::{JSON, JSONBuilder, JSONSink};
+pub use crate::standard::{Standard, StandardBuilder, StandardSink};
+pub use crate::stats::Stats;
+pub use crate::summary::{Summary, SummaryBuilder, SummaryKind, SummarySink};
+pub use crate::util::PrinterPath;
 
 #[macro_use]
 mod macros;

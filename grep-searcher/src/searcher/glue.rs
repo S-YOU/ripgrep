@@ -2,15 +2,15 @@ use std::cmp;
 use std::io;
 
 use grep_matcher::Matcher;
-use lines::{self, LineStep};
-use line_buffer::{DEFAULT_BUFFER_CAPACITY, LineBufferReader};
-use sink::{Sink, SinkError};
+use crate::lines::{self, LineStep};
+use crate::line_buffer::{DEFAULT_BUFFER_CAPACITY, LineBufferReader};
+use crate::sink::{Sink, SinkError};
 
-use searcher::{Config, Range, Searcher};
-use searcher::core::Core;
+use crate::searcher::{Config, Range, Searcher};
+use crate::searcher::core::Core;
 
 #[derive(Debug)]
-pub struct ReadByLine<'s, M: 's, R, S> {
+pub struct ReadByLine<'s, M, R, S> {
     config: &'s Config,
     core: Core<'s, M, S>,
     rdr: LineBufferReader<'s, R>,
@@ -74,7 +74,7 @@ where M: Matcher,
 }
 
 #[derive(Debug)]
-pub struct SliceByLine<'s, M: 's, S> {
+pub struct SliceByLine<'s, M, S> {
     config: &'s Config,
     core: Core<'s, M, S>,
     slice: &'s [u8],
@@ -124,7 +124,7 @@ impl<'s, M: Matcher, S: Sink> SliceByLine<'s, M, S> {
 }
 
 #[derive(Debug)]
-pub struct MultiLine<'s, M: 's, S> {
+pub struct MultiLine<'s, M, S> {
     config: &'s Config,
     core: Core<'s, M, S>,
     slice: &'s [u8],
@@ -335,8 +335,8 @@ impl<'s, M: Matcher, S: Sink> MultiLine<'s, M, S> {
 
 #[cfg(test)]
 mod tests {
-    use searcher::{BinaryDetection, SearcherBuilder};
-    use testutil::{KitchenSink, RegexMatcher, SearcherTester};
+    use crate::searcher::{BinaryDetection, SearcherBuilder};
+    use crate::testutil::{KitchenSink, RegexMatcher, SearcherTester};
 
     use super::*;
 
@@ -1481,8 +1481,8 @@ byte count:307
 
     #[test]
     fn scratch() {
-        use sinks;
-        use testutil::RegexMatcher;
+        use crate::sinks;
+        use crate::testutil::RegexMatcher;
 
         const SHERLOCK: &'static [u8] = b"\
 For the Doctor Wat\xFFsons of this world, as opposed to the Sherlock

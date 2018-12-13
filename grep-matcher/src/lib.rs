@@ -38,14 +38,14 @@ implementations.
 
 #![deny(missing_docs)]
 
-extern crate memchr;
+
 
 use std::fmt;
 use std::io;
 use std::ops;
 use std::u64;
 
-use interpolate::interpolate;
+use crate::interpolate::interpolate;
 
 mod interpolate;
 
@@ -304,7 +304,7 @@ pub struct ByteSet(BitSet);
 struct BitSet([u64; 4]);
 
 impl fmt::Debug for BitSet {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let mut fmtd = f.debug_set();
         for b in (0..256).map(|b| b as u8) {
             if ByteSet(*self).contains(b) {
@@ -485,7 +485,7 @@ impl ::std::error::Error for NoError {
 }
 
 impl fmt::Display for NoError {
-    fn fmt(&self, _: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, _: &mut fmt::Formatter<'_>) -> fmt::Result {
         panic!("BUG for NoError: an impossible error occurred")
     }
 }

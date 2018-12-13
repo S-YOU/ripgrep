@@ -10,7 +10,7 @@ use std::cmp;
 use regex_syntax::hir::{self, Hir, HirKind};
 use regex_syntax::hir::literal::{Literal, Literals};
 
-use util;
+use crate::util;
 
 /// Represents prefix, suffix and inner "required" literals for a regular
 /// expression.

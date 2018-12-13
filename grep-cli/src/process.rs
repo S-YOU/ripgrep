@@ -37,7 +37,7 @@ impl error::Error for CommandError {
 }
 
 impl fmt::Display for CommandError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self.kind {
             CommandErrorKind::Io(ref e) => e.fmt(f),
             CommandErrorKind::Stderr(ref bytes) => {
@@ -103,7 +103,7 @@ impl CommandReaderBuilder {
         let stdout = child.stdout.take().unwrap();
         let stderr =
             if self.async_stderr {
-                StderrReader::async(child.stderr.take().unwrap())
+                StderrReader::r#async(child.stderr.take().unwrap())
             } else {
                 StderrReader::sync(child.stderr.take().unwrap())
             };
@@ -225,7 +225,7 @@ enum StderrReader {
 
 impl StderrReader {
     /// Create a reader for stderr that reads contents asynchronously.
-    fn async(mut stderr: process::ChildStderr) -> StderrReader {
+    fn r#async(mut stderr: process::ChildStderr) -> StderrReader {
         let handle = thread::spawn(move || {
             stderr_to_command_error(&mut stderr)
         });

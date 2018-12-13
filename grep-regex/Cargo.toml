@@ -11,6 +11,7 @@ repository = "https://github.com/BurntSushi/ripgrep"
 readme = "README.md"
 keywords = ["regex", "grep", "search", "pattern", "line"]
 license = "Unlicense/MIT"
+edition = "2018"
 
 [dependencies]
 log = "0.4.5"

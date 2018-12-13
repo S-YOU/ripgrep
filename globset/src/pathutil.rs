@@ -54,7 +54,7 @@ pub fn file_name<'a, P: AsRef<Path> + ?Sized>(
 /// a pattern like `*.rs` is obviously trying to match files with a `rs`
 /// extension, but it also matches files like `.rs`, which doesn't have an
 /// extension according to std::path::Path::extension.
-pub fn file_name_ext(name: &OsStr) -> Option<Cow<[u8]>> {
+pub fn file_name_ext(name: &OsStr) -> Option<Cow<'_, [u8]>> {
     if name.is_empty() {
         return None;
     }
@@ -79,13 +79,13 @@ pub fn file_name_ext(name: &OsStr) -> Option<Cow<[u8]>> {
 }
 
 /// Return raw bytes of a path, transcoded to UTF-8 if necessary.
-pub fn path_bytes(path: &Path) -> Cow<[u8]> {
+pub fn path_bytes(path: &Path) -> Cow<'_, [u8]> {
     os_str_bytes(path.as_os_str())
 }
 
 /// Return the raw bytes of the given OS string, possibly transcoded to UTF-8.
 #[cfg(unix)]
-pub fn os_str_bytes(s: &OsStr) -> Cow<[u8]> {
+pub fn os_str_bytes(s: &OsStr) -> Cow<'_, [u8]> {
     use std::os::unix::ffi::OsStrExt;
     Cow::Borrowed(s.as_bytes())
 }
@@ -106,7 +106,7 @@ pub fn os_str_bytes(s: &OsStr) -> Cow<[u8]> {
 /// Normalizes a path to use `/` as a separator everywhere, even on platforms
 /// that recognize other characters as separators.
 #[cfg(unix)]
-pub fn normalize_path(path: Cow<[u8]>) -> Cow<[u8]> {
+pub fn normalize_path(path: Cow<'_, [u8]>) -> Cow<'_, [u8]> {
     // UNIX only uses /, so we're good.
     path
 }

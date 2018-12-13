@@ -99,27 +99,26 @@ searches stdin.
 
 #![deny(missing_docs)]
 
-extern crate bytecount;
-extern crate encoding_rs;
-extern crate encoding_rs_io;
-extern crate grep_matcher;
+use bytecount;
+use encoding_rs;
+
+
 #[macro_use]
 extern crate log;
-extern crate memchr;
-extern crate memmap;
-#[cfg(test)]
-extern crate regex;
 
-pub use lines::{LineIter, LineStep};
-pub use searcher::{
+
+
+
+pub use crate::lines::{LineIter, LineStep};
+pub use crate::searcher::{
     BinaryDetection, ConfigError, Encoding, MmapChoice,
     Searcher, SearcherBuilder,
 };
-pub use sink::{
+pub use crate::sink::{
     Sink, SinkError,
     SinkContext, SinkContextKind, SinkFinish, SinkMatch,
 };
-pub use sink::sinks;
+pub use crate::sink::sinks;
 
 #[macro_use]
 mod macros;

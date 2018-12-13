@@ -46,19 +46,18 @@ See the documentation for `WalkBuilder` for many other options.
 
 #![deny(missing_docs)]
 
-extern crate crossbeam_channel as channel;
-extern crate globset;
+use crossbeam_channel as channel;
+
 #[macro_use]
 extern crate lazy_static;
 #[macro_use]
 extern crate log;
-extern crate memchr;
-extern crate regex;
-extern crate same_file;
-#[cfg(test)]
-extern crate tempdir;
-extern crate thread_local;
-extern crate walkdir;
+
+
+
+
+
+use walkdir;
 #[cfg(windows)]
 extern crate winapi_util;
 
@@ -67,7 +66,7 @@ use std::fmt;
 use std::io;
 use std::path::{Path, PathBuf};
 
-pub use walk::{DirEntry, Walk, WalkBuilder, WalkParallel, WalkState};
+pub use crate::walk::{DirEntry, Walk, WalkBuilder, WalkParallel, WalkState};
 
 mod dir;
 pub mod gitignore;
@@ -281,7 +280,7 @@ impl error::Error for Error {
 }
 
 impl fmt::Display for Error {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match *self {
             Error::Partial(ref errs) => {
                 let msgs: Vec<String> =

@@ -93,8 +93,8 @@ use globset::{GlobBuilder, GlobSet, GlobSetBuilder};
 use regex::Regex;
 use thread_local::ThreadLocal;
 
-use pathutil::file_name;
-use {Error, Match};
+use crate::pathutil::file_name;
+use crate::{Error, Match};
 
 const DEFAULT_TYPES: &'static [(&'static str, &'static [&'static str])] = &[
     ("agda", &["*.agda", "*.lagda"]),

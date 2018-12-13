@@ -1,4 +1,4 @@
-extern crate ignore;
+
 
 use std::path::Path;
 

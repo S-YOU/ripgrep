@@ -8,7 +8,7 @@ use std::str;
 use regex;
 use regex::bytes::Regex;
 
-use {Candidate, Error, ErrorKind, new_regex};
+use crate::{Candidate, Error, ErrorKind, new_regex};
 
 /// Describes a matching strategy for a particular pattern.
 ///
@@ -98,7 +98,7 @@ impl hash::Hash for Glob {
 }
 
 impl fmt::Display for Glob {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         self.glob.fmt(f)
     }
 }
@@ -119,7 +119,7 @@ impl GlobMatcher {
     }
 
     /// Tests whether the given path matches this pattern or not.
-    pub fn is_match_candidate(&self, path: &Candidate) -> bool {
+    pub fn is_match_candidate(&self, path: &Candidate<'_>) -> bool {
         self.re.is_match(&path.path)
     }
 }
@@ -144,7 +144,7 @@ impl GlobStrategic {
     }
 
     /// Tests whether the given path matches this pattern or not.
-    fn is_match_candidate(&self, candidate: &Candidate) -> bool {
+    fn is_match_candidate(&self, candidate: &Candidate<'_>) -> bool {
         let byte_path = &*candidate.path;
 
         match self.strategy {
@@ -976,7 +976,7 @@ fn ends_with(needle: &[u8], haystack: &[u8]) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use {GlobSetBuilder, ErrorKind};
+    use crate::{GlobSetBuilder, ErrorKind};
     use super::{Glob, GlobBuilder, Token};
     use super::Token::*;
 

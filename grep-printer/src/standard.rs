@@ -13,10 +13,10 @@ use grep_searcher::{
 };
 use termcolor::{ColorSpec, NoColor, WriteColor};
 
-use color::ColorSpecs;
-use counter::CounterWriter;
-use stats::Stats;
-use util::{
+use crate::color::ColorSpecs;
+use crate::counter::CounterWriter;
+use crate::stats::Stats;
+use crate::util::{
     PrinterPath, Replacer, Sunk,
     trim_ascii_prefix, trim_ascii_prefix_range,
 };
@@ -601,7 +601,7 @@ impl<W> Standard<W> {
 /// * `W` refers to the underlying writer that this printer is writing its
 ///   output to.
 #[derive(Debug)]
-pub struct StandardSink<'p, 's, M: Matcher, W: 's> {
+pub struct StandardSink<'p, 's, M: Matcher, W> {
     matcher: M,
     standard: &'s mut Standard<W>,
     replacer: Replacer<M>,
@@ -731,7 +731,7 @@ impl<'p, 's, M: Matcher, W: WriteColor> Sink for StandardSink<'p, 's, M, W> {
     fn matched(
         &mut self,
         searcher: &Searcher,
-        mat: &SinkMatch,
+        mat: &SinkMatch<'_>,
     ) -> Result<bool, io::Error> {
         self.match_count += 1;
         self.after_context_remaining = searcher.after_context() as u64;
@@ -751,7 +751,7 @@ impl<'p, 's, M: Matcher, W: WriteColor> Sink for StandardSink<'p, 's, M, W> {
     fn context(
         &mut self,
         searcher: &Searcher,
-        ctx: &SinkContext,
+        ctx: &SinkContext<'_>,
     ) -> Result<bool, io::Error> {
         self.standard.matches.clear();
         self.replacer.clear();
@@ -828,7 +828,7 @@ impl<'a, M: Matcher, W: WriteColor> StandardImpl<'a, M, W> {
     /// Bundle self with a searcher and return the core implementation of Sink.
     fn new(
         searcher: &'a Searcher,
-        sink: &'a StandardSink<M, W>,
+        sink: &'a StandardSink<'_, '_, M, W>,
     ) -> StandardImpl<'a, M, W> {
         StandardImpl {
             searcher: searcher,
@@ -842,7 +842,7 @@ impl<'a, M: Matcher, W: WriteColor> StandardImpl<'a, M, W> {
     /// for use with handling matching lines.
     fn from_match(
         searcher: &'a Searcher,
-        sink: &'a StandardSink<M, W>,
+        sink: &'a StandardSink<'_, '_, M, W>,
         mat: &'a SinkMatch<'a>,
     ) -> StandardImpl<'a, M, W> {
         let sunk = Sunk::from_sink_match(
@@ -860,7 +860,7 @@ impl<'a, M: Matcher, W: WriteColor> StandardImpl<'a, M, W> {
     /// for use with handling contextual lines.
     fn from_context(
         searcher: &'a Searcher,
-        sink: &'a StandardSink<M, W>,
+        sink: &'a StandardSink<'_, '_, M, W>,
         ctx: &'a SinkContext<'a>,
     ) -> StandardImpl<'a, M, W> {
         let sunk = Sunk::from_sink_context(
@@ -1099,7 +1099,7 @@ impl<'a, M: Matcher, W: WriteColor> StandardImpl<'a, M, W> {
         let spec = self.config().colors.matched();
         let bytes = self.sunk.bytes();
         for &m in self.sunk.matches() {
-            let mut m = m;
+            let m = m;
             let mut count = 0;
             let mut stepper = LineStep::new(line_term, 0, bytes.len());
             while let Some((start, end)) = stepper.next(bytes) {

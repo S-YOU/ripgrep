@@ -19,8 +19,8 @@ use std::time::Instant;
 
 use ignore::WalkState;
 
-use args::Args;
-use subject::Subject;
+use crate::args::Args;
+use crate::subject::Subject;
 
 #[macro_use]
 mod messages;
@@ -47,7 +47,7 @@ fn main() {
 }
 
 fn try_main(args: Args) -> Result<bool> {
-    use args::Command::*;
+    use crate::args::Command::*;
 
     match args.command()? {
         Search => search(args),

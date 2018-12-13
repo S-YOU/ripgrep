@@ -14,10 +14,10 @@ A cookbook and a guide are planned.
 
 #![deny(missing_docs)]
 
-pub extern crate grep_cli as cli;
-pub extern crate grep_matcher as matcher;
+pub use grep_cli as cli;
+pub use grep_matcher as matcher;
 #[cfg(feature = "pcre2")]
 pub extern crate grep_pcre2 as pcre2;
-pub extern crate grep_printer as printer;
-pub extern crate grep_regex as regex;
-pub extern crate grep_searcher as searcher;
+pub use grep_printer as printer;
+pub use grep_regex as regex;
+pub use grep_searcher as searcher;

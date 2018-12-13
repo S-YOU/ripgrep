@@ -10,15 +10,15 @@ use std::thread;
 use std::time::Duration;
 use std::vec;
 
-use channel;
+use crate::channel;
 use same_file::Handle;
 use walkdir::{self, WalkDir};
 
-use dir::{Ignore, IgnoreBuilder};
-use gitignore::GitignoreBuilder;
-use overrides::Override;
-use types::Types;
-use {Error, PartialErrorBuilder};
+use crate::dir::{Ignore, IgnoreBuilder};
+use crate::gitignore::GitignoreBuilder;
+use crate::overrides::Override;
+use crate::types::Types;
+use crate::{Error, PartialErrorBuilder};
 
 /// A directory entry with a possible error attached.
 ///
@@ -262,7 +262,7 @@ struct DirEntryRaw {
 }
 
 impl fmt::Debug for DirEntryRaw {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         // Leaving out FileType because it doesn't have a debug impl
         // in Rust 1.9. We could add it if we really wanted to by manually
         // querying each possibly file type. Meh. ---AG
@@ -481,12 +481,12 @@ pub struct WalkBuilder {
 
 #[derive(Clone)]
 enum Sorter {
-    ByName(Arc<Fn(&OsStr, &OsStr) -> cmp::Ordering + Send + Sync + 'static>),
-    ByPath(Arc<Fn(&Path, &Path) -> cmp::Ordering + Send + Sync + 'static>),
+    ByName(Arc<dyn Fn(&OsStr, &OsStr) -> cmp::Ordering + Send + Sync + 'static>),
+    ByPath(Arc<dyn Fn(&Path, &Path) -> cmp::Ordering + Send + Sync + 'static>),
 }
 
 impl fmt::Debug for WalkBuilder {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.debug_struct("WalkBuilder")
             .field("paths", &self.paths)
             .field("ig_builder", &self.ig_builder)
@@ -1066,7 +1066,7 @@ impl WalkParallel {
     pub fn run<F>(
         self,
         mut mkf: F,
-    ) where F: FnMut() -> Box<FnMut(Result<DirEntry, Error>) -> WalkState + Send + 'static> {
+    ) where F: FnMut() -> Box<dyn FnMut(Result<DirEntry, Error>) -> WalkState + Send + 'static> {
         let mut f = mkf();
         let threads = self.threads();
         // TODO: Figure out how to use a bounded channel here. With an
@@ -1244,7 +1244,7 @@ impl Work {
 /// Note that a worker is *both* a producer and a consumer.
 struct Worker {
     /// The caller's callback.
-    f: Box<FnMut(Result<DirEntry, Error>) -> WalkState + Send + 'static>,
+    f: Box<dyn FnMut(Result<DirEntry, Error>) -> WalkState + Send + 'static>,
     /// The push side of our mpmc queue.
     tx: channel::Sender<Message>,
     /// The receive side of our mpmc queue.

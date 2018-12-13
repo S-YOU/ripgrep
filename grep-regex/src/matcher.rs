@@ -5,9 +5,9 @@ use grep_matcher::{
 };
 use regex::bytes::{CaptureLocations, Regex};
 
-use config::{Config, ConfiguredHIR};
-use error::Error;
-use word::WordMatcher;
+use crate::config::{Config, ConfiguredHIR};
+use crate::error::Error;
+use crate::word::WordMatcher;
 
 /// A builder for constructing a `Matcher` using regular expressions.
 ///

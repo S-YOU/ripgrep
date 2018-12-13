@@ -3,10 +3,10 @@ use std::cmp;
 use memchr::memchr;
 
 use grep_matcher::{LineMatchKind, Matcher};
-use lines::{self, LineStep};
-use line_buffer::BinaryDetection;
-use searcher::{Config, Range, Searcher};
-use sink::{
+use crate::lines::{self, LineStep};
+use crate::line_buffer::BinaryDetection;
+use crate::searcher::{Config, Range, Searcher};
+use crate::sink::{
     Sink, SinkError,
     SinkFinish, SinkContext, SinkContextKind, SinkMatch,
 };

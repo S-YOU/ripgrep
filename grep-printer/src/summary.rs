@@ -8,10 +8,10 @@ use grep_matcher::Matcher;
 use grep_searcher::{Searcher, Sink, SinkError, SinkFinish, SinkMatch};
 use termcolor::{ColorSpec, NoColor, WriteColor};
 
-use color::ColorSpecs;
-use counter::CounterWriter;
-use stats::Stats;
-use util::PrinterPath;
+use crate::color::ColorSpecs;
+use crate::counter::CounterWriter;
+use crate::stats::Stats;
+use crate::util::PrinterPath;
 
 /// The configuration for the summary printer.
 ///
@@ -460,7 +460,7 @@ impl<W> Summary<W> {
 /// * `W` refers to the underlying writer that this printer is writing its
 ///   output to.
 #[derive(Debug)]
-pub struct SummarySink<'p, 's, M: Matcher, W: 's> {
+pub struct SummarySink<'p, 's, M: Matcher, W> {
     matcher: M,
     summary: &'s mut Summary<W>,
     path: Option<PrinterPath<'p>>,
@@ -580,7 +580,7 @@ impl<'p, 's, M: Matcher, W: WriteColor> Sink for SummarySink<'p, 's, M, W> {
     fn matched(
         &mut self,
         _searcher: &Searcher,
-        mat: &SinkMatch,
+        mat: &SinkMatch<'_>,
     ) -> Result<bool, io::Error> {
         self.match_count += 1;
         if let Some(ref mut stats) = self.stats {

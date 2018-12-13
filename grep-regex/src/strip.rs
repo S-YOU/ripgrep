@@ -1,7 +1,7 @@
 use grep_matcher::LineTerminator;
 use regex_syntax::hir::{self, Hir, HirKind};
 
-use error::{Error, ErrorKind};
+use crate::error::{Error, ErrorKind};
 
 /// Return an HIR that is guaranteed to never match the given line terminator,
 /// if possible.
@@ -106,7 +106,7 @@ fn strip_from_match_ascii(
 mod tests {
     use regex_syntax::Parser;
 
-    use error::Error;
+    use crate::error::Error;
     use super::{LineTerminator, strip_from_match};
 
     fn roundtrip(pattern: &str, byte: u8) -> String {

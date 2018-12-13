@@ -2,8 +2,8 @@ use std::time;
 
 use serde_json as json;
 
-use hay::{SHERLOCK, SHERLOCK_CRLF};
-use util::{Dir, TestCommand};
+use crate::hay::{SHERLOCK, SHERLOCK_CRLF};
+use crate::util::{Dir, TestCommand};
 
 #[derive(Clone, Debug, Deserialize, PartialEq, Eq)]
 #[serde(tag = "type", content = "data")]

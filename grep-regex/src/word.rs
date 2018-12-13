@@ -6,9 +6,9 @@ use grep_matcher::{Match, Matcher, NoError};
 use regex::bytes::{CaptureLocations, Regex};
 use thread_local::CachedThreadLocal;
 
-use config::ConfiguredHIR;
-use error::Error;
-use matcher::RegexCaptures;
+use crate::config::ConfiguredHIR;
+use crate::error::Error;
+use crate::matcher::RegexCaptures;
 
 /// A matcher for implementing "word match" semantics.
 #[derive(Debug)]
@@ -110,7 +110,7 @@ impl Matcher for WordMatcher {
 #[cfg(test)]
 mod tests {
     use grep_matcher::{Captures, Match, Matcher};
-    use config::Config;
+    use crate::config::Config;
     use super::WordMatcher;
 
     fn matcher(pattern: &str) -> WordMatcher {

@@ -11,7 +11,7 @@ use std::process;
 
 use clap::Shell;
 
-use app::{RGArg, RGArgKind};
+use crate::app::{RGArg, RGArgKind};
 
 #[allow(dead_code)]
 #[path = "src/app.rs"]

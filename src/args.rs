@@ -32,22 +32,22 @@ use grep::searcher::{
 use ignore::overrides::{Override, OverrideBuilder};
 use ignore::types::{FileTypeDef, Types, TypesBuilder};
 use ignore::{Walk, WalkBuilder, WalkParallel};
-use log;
+use crate::log;
 use num_cpus;
-use path_printer::{PathPrinter, PathPrinterBuilder};
+use crate::path_printer::{PathPrinter, PathPrinterBuilder};
 use regex;
 use termcolor::{
     WriteColor,
     BufferWriter, ColorChoice,
 };
 
-use app;
-use config;
-use logger::Logger;
-use messages::{set_messages, set_ignore_messages};
-use search::{PatternMatcher, Printer, SearchWorker, SearchWorkerBuilder};
-use subject::SubjectBuilder;
-use Result;
+use crate::app;
+use crate::config;
+use crate::logger::Logger;
+use crate::messages::{set_messages, set_ignore_messages};
+use crate::search::{PatternMatcher, Printer, SearchWorker, SearchWorkerBuilder};
+use crate::subject::SubjectBuilder;
+use crate::Result;
 
 /// The command that ripgrep should execute based on the command line
 /// configuration.

@@ -158,15 +158,15 @@ error message is crafted that typically tells the user how to fix the problem.
 
 #![deny(missing_docs)]
 
-extern crate atty;
-extern crate globset;
+use atty;
+
 #[macro_use]
 extern crate lazy_static;
 #[macro_use]
 extern crate log;
-extern crate regex;
-extern crate same_file;
-extern crate termcolor;
+
+
+use termcolor;
 #[cfg(windows)]
 extern crate winapi_util;
 
@@ -177,19 +177,19 @@ mod pattern;
 mod process;
 mod wtr;
 
-pub use decompress::{
+pub use crate::decompress::{
     DecompressionMatcher, DecompressionMatcherBuilder,
     DecompressionReader, DecompressionReaderBuilder,
 };
-pub use escape::{escape, escape_os, unescape, unescape_os};
-pub use human::{ParseSizeError, parse_human_readable_size};
-pub use pattern::{
+pub use crate::escape::{escape, escape_os, unescape, unescape_os};
+pub use crate::human::{ParseSizeError, parse_human_readable_size};
+pub use crate::pattern::{
     InvalidPatternError,
     pattern_from_os, pattern_from_bytes,
     patterns_from_path, patterns_from_reader, patterns_from_stdin,
 };
-pub use process::{CommandError, CommandReader, CommandReaderBuilder};
-pub use wtr::{
+pub use crate::process::{CommandError, CommandReader, CommandReaderBuilder};
+pub use crate::wtr::{
     StandardStream,
     stdout, stdout_buffered_line, stdout_buffered_block,
 };
